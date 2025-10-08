@@ -1,3 +1,71 @@
+/* Grundlegendes Styling */
 body {
-    background-color: pink;
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+h1 {
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+}
+
+/* Styling für die Daten-Tabelle */
+#iss-data {
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse; /* Entfernt doppelte Rahmen */
+    margin: 25px 0;
+    font-size: 0.9em;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    background-color: #ffffff;
+}
+
+/* Tabellenkopf (Header) */
+table thead tr {
+    background-color: #3498db; /* Schöne blaue Akzentfarbe */
+    color: #ffffff;
+    text-align: left;
+}
+
+/* Zellen-Padding */
+table th,
+table td {
+    padding: 12px 15px;
+    border: 1px solid #dddddd; 
+}
+
+/* Tabellenkörper (Body) - Zeilen */
+table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+/* Streifenmuster (jede zweite Zeile) */
+table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+/* Letzte Zeile und Hover-Effekt */
+table tbody tr:last-of-type {
+    border-bottom: 2px solid #3498db;
+}
+
+table tbody tr:hover {
+    background-color: #ecf0f1;
+    cursor: pointer;
+}
+
+/* Fehlermeldungen */
+.error {
+    color: #c0392b; /* Dunkelrot */
+    font-weight: bold;
+    border: 1px solid #c0392b;
+    padding: 10px;
+    background-color: #fde7e5;
 }
