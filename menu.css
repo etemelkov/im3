@@ -1,0 +1,81 @@
+/* Textbox mit Rahmen */
+.menu-box{
+    width: min(92vw, 680px);
+    margin: 0 auto;
+    border: 3px solid rgba(255,255,255,.9);
+    border-radius: 18px;
+    padding: clamp(16px, 4vw, 28px);
+    backdrop-filter: blur(1px);
+  }
+  
+  /* Figuren */
+  .character{
+    position: absolute;
+    bottom: clamp(120px, 18vh, 180px);   /* oberhalb der Buttons */
+    width: clamp(120px, 30vw, 220px);
+    height: auto;
+    pointer-events: none;
+  }
+  .character.astronaut{ left: clamp(8px, 4vw, 40px); }
+  .character.alien{ right: clamp(8px, 4vw, 40px); }
+  
+  /* Buttons */
+  .cta-stack{
+    display: grid;
+    gap: clamp(14px, 3vw, 18px);
+    width: min(92vw, 520px);
+    margin: 0 auto clamp(8px, 3vh, 24px);
+  }
+  .btn{
+    display: inline-block;
+    width: 100%;
+    padding: .9em 1.2em;
+    text-align: center;
+    border-radius: 18px;
+    border: 3px solid #fff;
+    color: #fff;
+    background: rgba(0,0,0,.25);
+    text-decoration: none;
+    font-weight: 300;              /* passt zu Open Sans Light */
+    backdrop-filter: blur(2px);
+    transition: transform .2s ease, background-color .2s ease;
+  }
+  .btn:hover,.btn:focus-visible{
+    transform: translateY(-2px);
+    background: rgba(255,255,255,.08);
+    outline: none;
+  }
+  
+  /* --- Animationen (Einstieg) --- */
+  .from-left,.from-right,.from-bottom{ opacity: 0; }
+  .from-left{  animation: slideInLeft 700ms ease-out forwards 120ms; }
+  .from-right{ animation: slideInRight 700ms ease-out forwards 120ms; }
+  .from-bottom{animation: riseIn 800ms ease-out forwards; }
+  .cta-stack .btn:nth-child(1){ animation-delay: 300ms; }
+  .cta-stack .btn:nth-child(2){ animation-delay: 520ms; }
+  
+  @keyframes slideInLeft{
+    from{ transform: translateX(-8vw); opacity:0; }
+    to  { transform: translateX(0);     opacity:1; }
+  }
+  @keyframes slideInRight{
+    from{ transform: translateX(8vw); opacity:0; }
+    to  { transform: translateX(0);   opacity:1; }
+  }
+  @keyframes riseIn{
+    from{ transform: translateY(10vh); opacity:0; }
+    to  { transform: translateY(0);    opacity:1; }
+  }
+  
+  /* Desktop-Feinschliff */
+  @media (min-width: 992px){
+    .character{ bottom: clamp(120px, 14vh, 200px); }
+    .character.astronaut{ left: clamp(28px, 6vw, 80px); width: clamp(180px, 20vw, 280px); }
+    .character.alien{ right: clamp(28px, 6vw, 80px); width: clamp(160px, 18vw, 260px); }
+    .cta-stack{ width: min(60vw, 560px); }
+  }
+  
+  /* Motion-Preference respektieren */
+  @media (prefers-reduced-motion: reduce){
+    .from-left,.from-right,.from-bottom{ animation:none !important; opacity:1 !important; transform:none !important; }
+  }

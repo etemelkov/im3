@@ -1,0 +1,67 @@
+/* Bilder platzieren (mobile Ausgangspositionen) */
+.iss{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); /* Start mittig */
+    width: clamp(280px, 64vw, 600px);        /* mobil etwas kleiner */
+    height: auto;
+    z-index: 2;
+    pointer-events: none;
+  
+    /* nach 7s LINKS raus, langsamer */
+    animation: issExit 2s ease-out forwards;
+    animation-delay: 4s;
+  }
+  
+  .earth{
+    position: absolute;
+    left: 50%;
+    bottom: -2vh;                /* leicht über Rand hinaus */
+    transform: translateX(-50%);
+    width: min(1200px, 100vw);
+    height: auto;
+    z-index: 1;
+    pointer-events: none;
+  
+    /* nach 7s nach unten raus (unverändert) */
+    animation: earthExit 1.6s ease-in forwards;
+    animation-delay: 4s;
+  }
+  
+  /* Desktop-Feintuning (wie in deinen Mockups) */
+  @media (min-width: 992px){
+    .hero-title{ font-size: 120px; }
+    .hero-subtitle{ font-size: 40px; }
+    .hero-header{ top: 8vh; }
+  
+    .iss{
+      left: 56%;                 /* etwas weiter rechts */
+      top: 53%;                  /* noch weiter nach unten */
+      transform: translate(-50%, -50%);
+      width: clamp(320px, 24vw, 520px);   /* auf Desktop kleiner */
+    }
+    .earth{
+      bottom: -4vh;              /* stärkerer Bogen unten */
+      width: min(1600px, 120vw);
+    }
+  }
+  
+  /* Keyframes für die Ausflug-Animationen */
+  @keyframes earthExit{
+    from{ transform: translate(-50%, 0); }
+    to  { transform: translate(-50%, 100%); }  /* unten raus */
+  }
+  @keyframes issExit{
+    from{ transform: translate(-50%, -50%) rotate(0deg); }
+    to  { transform: translate(-120vw, -40%) rotate(-6deg); } /* LINKS raus, langsamer */
+  }
+  
+  /* Bewegungsreduktion respektieren */
+  @media (prefers-reduced-motion: reduce){
+    .iss, .earth{ animation: none !important; }
+  }
+  
+  /* Bild-Defaults */
+  img{ max-width: 100%; display: block; }
+  
