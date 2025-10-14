@@ -38,8 +38,15 @@
   width: clamp(100px, 16vw, 180px); /* Responsive size */
   height: auto;
   z-index: 5; /* Above the box */
-  pointer-events: none;
+  pointer-events: auto;   /* überschreibt dein 'none' */
+  cursor: pointer; /* Bild darf geklickt werden */
 }
+
+/* Link um den Astronauten – keine eigene Position nötig */
+.astronaut-link {
+  display: inline-block;
+}
+
 
 /* Button Stack */
 .cta-stack {
