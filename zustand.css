@@ -1,14 +1,25 @@
 /* ===== zustand.css — mobile-first ===== */
 
-/* Bühne unter deinem Hero-Header */
+/* Bühne unter dem Hero-Header */
 .vis-stage{
-    min-height: calc(100svh - 20vh); /* Platz unter deinem hero padding-top */
+    /* nimmt den verfügbaren Viewportraum unter deinem globalen Body-Top-Padding ein */
+    min-height: calc(100svh - 20vh);
+  
+    /* Spalten-Layout: Bild über Text */
     display: flex;
-    align-items: center;     /* Bild vertikal zentrieren */
-    justify-content: center; /* Bild horizontal zentrieren */
-    position: relative;
+    flex-direction: column;
+    align-items: center;
+  
+    /* statt exakter Zentrierung: weiter nach oben rücken */
+    justify-content: flex-start;
+    padding-top: clamp(6vh, 10vh, 12vh);
+  
+    /* fixer Abstand zwischen Bild und Text */
+    gap: clamp(12px, 3vh, 24px);
+  
     text-align: center;
-    padding-inline: 16px;    /* kleinstes Seitenpolster auf Mobile */
+    padding-inline: 16px;
+    position: relative;
   }
   
   /* Container fürs Zustands-Bild */
@@ -19,41 +30,35 @@
     max-width: 100%;
   }
   
-  /* Bildgröße: mobile-first, fluid mit Ober-/Untergrenze */
+  /* Bildgröße: mobile-first, fluid */
   .state-img{
-    width: clamp(220px, 60vw, 520px);
+    width: clamp(240px, 60vw, 520px);
     height: auto;
     display: block;
     pointer-events: none;
     user-select: none;
   }
   
-  /* Sichtbarkeitstext: unten mittig im Viewport */
+  /* Sichtbarkeitstext: direkt unter dem Bild, Abstand via gap */
   #iss-visibility{
-    position: fixed;
-    left: 50%;
-    bottom: 6vh;               /* Abstand vom unteren Rand */
-    transform: translateX(-50%);
-    margin: 0;
-    /* Typografie kommt aus deinem globalen styles.css (p: 23px/40px) */
-    /* Optional: leichte Kontur für bessere Lesbarkeit auf hellem Bild: */
+    margin: 0;               /* Abstand kommt aus .vis-stage -> gap */
     text-shadow: 0 1px 8px rgba(0,0,0,.35);
+    /* Typografie (23px/40px) kommt aus deinem globalen styles.css */
   }
   
   /* ===== Desktop-Tweaks ===== */
   @media (min-width: 992px){
     .vis-stage{
       padding-inline: 24px;
+      padding-top: clamp(6vh, 8vh, 10vh); /* am Desktop etwas höher starten */
+      gap: clamp(16px, 2.5vh, 28px);
     }
     .state-img{
-      width: clamp(420px, 36vw, 760px); /* größer am Desktop */
-    }
-    #iss-visibility{
-      bottom: 8vh; /* etwas höher positionieren */
+      width: clamp(480px, 36vw, 760px);    /* größer am Desktop */
     }
   }
   
-  /* Bewegungsreduktion (falls du später Animationen ergänzt) */
+  /* Bewegungsreduktion (falls später Animationen kommen) */
   @media (prefers-reduced-motion: reduce){
     * { scroll-behavior: auto; }
   }
