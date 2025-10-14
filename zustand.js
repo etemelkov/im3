@@ -31,7 +31,7 @@ console.log("Hello, Visibility!");
     // "sind am schlafen" -> Astronaut_schlafen
     // "schauen sich den Sonnenauf- oder untergang an" -> Astronaut_Sonnenaufuntergang
     if (t.includes('wach')) {
-      return { src: 'img/Astronaut_sindwach.png', alt: 'Astronauten sind wach' };
+      return { src: 'img/Astronaut_schlafen.png', alt: 'Astronauten sind wach' };
     }
     if (t.includes('schlaf')) {
       return { src: 'img/Astronaut_schlafen.png', alt: 'Astronauten schlafen' };
