@@ -1,0 +1,65 @@
+/* ===== map.css — mobile-first ===== */
+
+/* Karte nimmt den ganzen Viewport ein (unter deinem globalen Hintergrund) */
+#map{
+    position: fixed;
+    inset: 0;               /* top/right/bottom/left: 0 */
+    z-index: 0;
+  }
+  
+  /* Info-Panel unten rechts */
+  #iss-info{
+    position: fixed;
+    right: 12px;
+    bottom: 12px;
+    z-index: 10;
+    background: rgba(0,0,0,.6);
+    border: 2px solid rgba(255,255,255,.9);
+    border-radius: 12px;
+    padding: 10px 12px;
+    backdrop-filter: blur(2px);
+    text-align: left;
+  }
+  #iss-info div{ line-height: 1.25; }
+  
+  /* Home-Button links oben */
+  .home-btn{
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 11;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: rgba(255,255,255,.9);
+    color: #000;
+    text-decoration: none;
+    font-size: 22px;
+    line-height: 1;
+  }
+  
+  /* Leaflet Attribution dezent */
+  .leaflet-control-attribution{
+    background: rgba(0,0,0,.5) !important;
+    color: #fff !important;
+    border-radius: 8px;
+    padding: 0 6px !important;
+  }
+  
+  /* ===== Desktop ===== */
+  @media (min-width: 992px){
+    #iss-info{
+      right: 20px;
+      bottom: 20px;
+      padding: 12px 14px;
+      border-width: 3px;
+    }
+    .home-btn{
+      top: 16px; left: 16px;
+      width: 52px; height: 52px;
+      font-size: 24px;
+    }
+  }
+  
