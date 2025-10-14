@@ -7,11 +7,11 @@ function interpretVisibility($visibility)
 {
     switch ($visibility) {
         case 'daylight':
-            return 'sind wach';
+            return 'sind wach.';
         case 'eclipsed':
-            return 'sind am schlafen';
+            return 'sind am schlafen.';
         case 'twilight':
-            return 'schauen sich den Sonnenauf- oder -untergang an';
+            return 'schauen sich den Sonnenauf- oder -untergang an.';
         default:
             return 'unbekannter Zustand';
     }

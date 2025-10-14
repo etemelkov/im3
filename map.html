@@ -2,38 +2,28 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>COSMOSLIVE – ISS Karte</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IM3 – ISS Karte</title>
 
-  <!-- Globales Basis-CSS -->
+  <!-- Dein globales CSS (optional) -->
   <link rel="stylesheet" href="styles.css" />
-  <!-- Seiten-CSS -->
-  <link rel="stylesheet" href="map.css" />
 
-  <!-- Leaflet CSS (CDN) -->
+  <!-- Leaflet CSS -->
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-sA+4J7mS5GJdFvN1sQ70CwT6Y7Y1Y7E8j6wZfZ1Z3ok="
     crossorigin=""
   />
+
+  <!-- Seiten-CSS -->
+  <link rel="stylesheet" href="map.css" />
 </head>
 <body>
-
   <!-- Vollbild-Karte -->
-  <div id="map" role="region" aria-label="ISS Live-Position"></div>
+  <div id="map" role="region" aria-label="Karte"></div>
 
-  <!-- Overlay: Info-Panel -->
-  <aside id="iss-info" aria-live="polite">
-    <div><strong>Lat.:</strong> <span id="lat">–</span></div>
-    <div><strong>Lon.:</strong> <span id="lon">–</span></div>
-    <div><strong>Zeit:</strong> <span id="time">–</span></div>
-  </aside>
-
-  <!-- Overlay: Home-Button (zurück zum Menü) -->
-  <a class="home-btn" href="menu.html" aria-label="Zurück zum Menü">⌂</a>
-
-  <!-- Leaflet JS (CDN) -->
+  <!-- Leaflet JS -->
   <script
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-o9N1j7kG8hZ6qG5f7V4zKqQvWm2s1iG1J1Qz6VQvCj0="
@@ -41,6 +31,6 @@
   ></script>
 
   <!-- Seiten-JS -->
-  <script src="script.js" defer></script>
+  <script src="map.js" defer></script>
 </body>
 </html>

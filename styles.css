@@ -40,6 +40,7 @@ p {
   margin: 0.5rem 1rem 0;
 }
 
+
 /* Desktop-Version */
 @media (min-width: 992px) {
   h1 { font-size: 120px; }
