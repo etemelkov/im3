@@ -15,7 +15,7 @@
     padding-top: clamp(6vh, 10vh, 12vh);
   
     /* fixer Abstand zwischen Bild und Text */
-    gap: clamp(12px, 3vh, 24px);
+    gap: clamp(80px, 3vh, 24px);
   
     text-align: center;
     padding-inline: 16px;
@@ -51,7 +51,7 @@
     .vis-stage{
       padding-inline: 24px;
       padding-top: clamp(6vh, 8vh, 10vh); /* am Desktop etwas höher starten */
-      gap: clamp(16px, 2.5vh, 28px);
+      gap: clamp(25px, 2.5vh, 28px);
     }
     .state-img{
       width: clamp(480px, 36vw, 760px);    /* größer am Desktop */
