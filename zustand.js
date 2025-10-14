@@ -3,45 +3,65 @@ console.log("Hello, Visibility!");
 (async function () {
   const API_URL = 'https://www.elenatemelkov.ch/unload.php';
 
-  // Ziel-Elemente aus dem HTML:
   const textEl = document.getElementById('iss-visibility');      // <p> unten
   const illuEl = document.getElementById('state-illustration');   // Bild in der Mitte
 
   if (!textEl || !illuEl) {
-    console.error('Container nicht gefunden. Stelle sicher, dass #iss-visibility und #state-illustration im HTML vorhanden sind.');
+    console.error('Container nicht gefunden (#iss-visibility / #state-illustration).');
     return;
   }
 
-  // Hilfsfunktionen
+  // --- Helpers ---
+  const normalize = (s) => String(s ?? '').toLowerCase().trim();
+
   function pickVisibilityKey(obj) {
-    // Finde Key, der "visibility" enthält (case-insensitive)
-    const k = Object.keys(obj).find(key => key.toLowerCase().includes('visibility'));
-    return k || null;
+    return Object.keys(obj).find(k => k.toLowerCase().includes('visibility')) || null;
   }
 
-  function normalize(str) {
-    return String(str || '').toLowerCase().trim();
-  }
-
+  // Nutzt genau deine Dateinamen im /img Ordner
   function pickStateImage(visText) {
     const t = normalize(visText);
 
-    // Mapping nach deinem Wunsch:
-    // "sind wach" -> Astronaut_sindwach
-    // "sind am schlafen" -> Astronaut_schlafen
-    // "schauen sich den Sonnenauf- oder untergang an" -> Astronaut_Sonnenaufuntergang
+    // "sind wach"
     if (t.includes('wach')) {
-      return { src: 'img/Astronaut_schlafen.png', alt: 'Astronauten sind wach' };
+      return { src: 'img/Astronaut_wachtauf.png', alt: 'Astronauten sind wach' };
     }
+    // "sind am schlafen"
     if (t.includes('schlaf')) {
       return { src: 'img/Astronaut_schlafen.png', alt: 'Astronauten schlafen' };
     }
+    // "schauen sich den Sonnenauf- oder untergang an"
     if (t.includes('sonnen')) {
-      // deckt Sonnenaufgang / Sonnenuntergang
-      return { src: 'img/Astronaut_Sonnenaufuntergang.png', alt: 'Astronauten beobachten Sonnenauf-/-untergang' };
+      return { src: 'img/Astronaut_Sonnenaufuntergang.png', alt: 'Astronauten beobachten Sonnenauf-/untergang' };
     }
-    // Fallback (optional eigenes Bild anlegen)
-    return { src: 'img/Astronaut_sindwach.png', alt: 'Aktueller Zustand' };
+
+    // Fallback (falls Text nicht erkannt)
+    return { src: 'img/Astronaut_wachtauf.png', alt: 'Aktueller Zustand' };
+  }
+
+  // Bild sauber einfügen (mit Fallback falls 404)
+  async function renderImage(src, alt) {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.className = 'state-img';
+      img.alt = alt;
+      img.onload = () => {
+        illuEl.innerHTML = '';
+        illuEl.appendChild(img);
+        resolve(true);
+      };
+      img.onerror = () => {
+        console.warn('Bild nicht gefunden:', src, '→ Fallback verwenden');
+        const fallback = 'img/Astronaut_wachtauf.png';
+        if (src !== fallback) {
+          img.src = fallback;
+        } else {
+          illuEl.innerHTML = '<p style="margin:0">Kein Bild verfügbar</p>';
+          resolve(false);
+        }
+      };
+      img.src = src; // WICHTIG: Pfad ist relativ zur HTML-Datei, nicht zur JS-Datei
+    });
   }
 
   try {
@@ -51,15 +71,12 @@ console.log("Hello, Visibility!");
     const data = await res.json();
     console.log('API Antwort:', data);
 
-    // Daten prüfen
     if (!data || (Array.isArray(data) && data.length === 0)) {
       textEl.textContent = 'Keine Sichtbarkeitsdaten verfügbar.';
       return;
     }
 
-    // Nehme den jüngsten Datensatz (letztes Element, falls Array), sonst das Objekt selbst
     const latest = Array.isArray(data) ? data[data.length - 1] : data;
-
     const visKey = pickVisibilityKey(latest);
     if (!visKey) {
       textEl.textContent = 'Feld "visibility" nicht gefunden.';
@@ -69,12 +86,8 @@ console.log("Hello, Visibility!");
     const visibilityValue = latest[visKey];
     const { src, alt } = pickStateImage(visibilityValue);
 
-    // Bild einsetzen (Mitte)
-    illuEl.innerHTML = `<img src="${src}" alt="${alt}" class="state-img">`;
-
-    // Text unten (dein <p>, globales Styling)
+    await renderImage(src, alt);
     textEl.textContent = String(visibilityValue ?? '—');
-
   } catch (err) {
     console.error('Fehler beim Laden:', err);
     textEl.textContent = `Daten konnten nicht geladen werden: ${err.message}`;
