@@ -1,81 +1,159 @@
-/* Textbox mit Rahmen */
-.menu-box{
-    width: min(92vw, 680px);
-    margin: 0 auto;
-    border: 3px solid rgba(255,255,255,.9);
-    border-radius: 18px;
-    padding: clamp(16px, 4vw, 28px);
-    backdrop-filter: blur(1px);
+/* ===== menu.css – Mobile First ===== */
+
+/* General Container for Box/Buttons/Figure */
+.menu {
+  position: relative;
+}
+
+/* Textbox with Border and Spacing */
+.menu-box {
+  width: min(73vw, 1122px);
+  margin: clamp(24px, 5vh, 48px) auto 0; /* Spacing from the title */
+  border: 3px solid #FFF;
+  border-radius: 14px;
+  padding: clamp(16px, 3.2vw, 32px) clamp(14px, 3vw, 26px);
+  box-sizing: border-box;
+  backdrop-filter: blur(1px);
+  position: relative; /* Anchor for the astronaut */
+  overflow: visible; /* Allow figure to slightly overlap */
+  z-index: 1; /* Below the figure */
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, border-radius 0.2s;
+}
+.menu-box > * + * {
+  margin-top: 10px; /* Acts like gap: 10px */
+}
+.menu-box p {
+  margin: 0;
+  max-width: 54ch; /* Adjust for readability */
+  margin-inline: auto;
+  text-wrap: balance;
+}
+
+/* Astronaut Figure */
+.menu-box .astronaut {
+  position: absolute;
+  top: 120%;
+  left: 15%; /* Anchored to the border */
+  transform: translate(-62%, -50%);
+  width: clamp(100px, 16vw, 180px); /* Responsive size */
+  height: auto;
+  z-index: 5; /* Above the box */
+  pointer-events: none;
+}
+
+/* Button Stack */
+.cta-stack {
+  display: grid;
+  justify-content: center; /* zentriert alle Grid-Kinder */
+  gap: clamp(30px, 3vw, 18px);
+  width: min(92vw, 420px);
+  margin: clamp(130px, 4vh, 36px) auto clamp(8px, 3vh, 24px); /* Spacing from the menu-box */
+}
+
+/* Buttons */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(60vw, 409px);
+  height: 35px;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: 3px solid #FFF;
+  background: #000;
+  color: #FFF;
+  text-decoration: none;
+  font-family: inherit; /* Inherits Open Sans from body */
+  font-weight: 300;
+  font-size: 23px; /* Matches paragraph font size on mobile */
+  line-height: normal;
+  text-align: center;
+  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.btn:hover,
+.btn:focus-visible {
+  transform: translateY(-2px);
+  background: #FFF;
+  color: #000;
+  border-color: #000;
+  outline: none;
+}
+
+/* Animations */
+.from-left,
+.from-bottom {
+  opacity: 0;
+}
+.from-left {
+  animation: slideInLeft 700ms ease-out forwards 120ms;
+}
+.from-bottom {
+  animation: riseIn 800ms ease-out forwards;
+}
+.cta-stack .btn:nth-child(1) {
+  animation-delay: 300ms;
+}
+.cta-stack .btn:nth-child(2) {
+  animation-delay: 520ms;
+}
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-8vw);
+    opacity: 0;
   }
-  
-  /* Figuren */
-  .character{
-    position: absolute;
-    bottom: clamp(120px, 18vh, 180px);   /* oberhalb der Buttons */
-    width: clamp(120px, 30vw, 220px);
-    height: auto;
-    pointer-events: none;
+  to {
+    transform: translateX(0);
+    opacity: 1;
   }
-  .character.astronaut{ left: clamp(8px, 4vw, 40px); }
-  .character.alien{ right: clamp(8px, 4vw, 40px); }
-  
-  /* Buttons */
-  .cta-stack{
-    display: grid;
-    gap: clamp(14px, 3vw, 18px);
-    width: min(92vw, 520px);
-    margin: 0 auto clamp(8px, 3vh, 24px);
+}
+@keyframes riseIn {
+  from {
+    transform: translateY(10vh);
+    opacity: 0;
   }
-  .btn{
-    display: inline-block;
-    width: 100%;
-    padding: .9em 1.2em;
-    text-align: center;
-    border-radius: 18px;
-    border: 3px solid #fff;
-    color: #fff;
-    background: rgba(0,0,0,.25);
-    text-decoration: none;
-    font-weight: 300;              /* passt zu Open Sans Light */
-    backdrop-filter: blur(2px);
-    transition: transform .2s ease, background-color .2s ease;
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
-  .btn:hover,.btn:focus-visible{
-    transform: translateY(-2px);
-    background: rgba(255,255,255,.08);
-    outline: none;
+}
+
+/* ===== Desktop Styles ===== */
+@media (min-width: 992px) {
+  /* Adjust Menu Box */
+  .menu-box {
+    width: min(72vw, 1122px);
   }
-  
-  /* --- Animationen (Einstieg) --- */
-  .from-left,.from-right,.from-bottom{ opacity: 0; }
-  .from-left{  animation: slideInLeft 700ms ease-out forwards 120ms; }
-  .from-right{ animation: slideInRight 700ms ease-out forwards 120ms; }
-  .from-bottom{animation: riseIn 800ms ease-out forwards; }
-  .cta-stack .btn:nth-child(1){ animation-delay: 300ms; }
-  .cta-stack .btn:nth-child(2){ animation-delay: 520ms; }
-  
-  @keyframes slideInLeft{
-    from{ transform: translateX(-8vw); opacity:0; }
-    to  { transform: translateX(0);     opacity:1; }
+  .menu-box p {
+    max-width: 58ch;
   }
-  @keyframes slideInRight{
-    from{ transform: translateX(8vw); opacity:0; }
-    to  { transform: translateX(0);   opacity:1; }
+
+  /* Adjust Astronaut */
+  .menu-box .astronaut {
+    transform: translate(-66%, -50%);
+    width: clamp(120px, 12vw, 190px);
   }
-  @keyframes riseIn{
-    from{ transform: translateY(10vh); opacity:0; }
-    to  { transform: translateY(0);    opacity:1; }
+
+  /* Adjust Button Stack */
+  .cta-stack {
+    gap: 10px; /* Increase spacing between buttons */
+    margin: clamp(50px, 4vh, 36px) auto clamp(8px, 3vh, 24px);
+    gap: clamp(40px, 3vw, 18px);
   }
-  
-  /* Desktop-Feinschliff */
-  @media (min-width: 992px){
-    .character{ bottom: clamp(120px, 14vh, 200px); }
-    .character.astronaut{ left: clamp(28px, 6vw, 80px); width: clamp(180px, 20vw, 280px); }
-    .character.alien{ right: clamp(28px, 6vw, 80px); width: clamp(160px, 18vw, 260px); }
-    .cta-stack{ width: min(60vw, 560px); }
+
+  /* Adjust Buttons */
+  .btn {
+    font-size: 40px; /* Larger font size for desktop */
+    height: 60px;
+    padding: 10px 20px;
   }
-  
-  /* Motion-Preference respektieren */
-  @media (prefers-reduced-motion: reduce){
-    .from-left,.from-right,.from-bottom{ animation:none !important; opacity:1 !important; transform:none !important; }
+}
+
+/* ===== Reduced Motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  .from-left,
+  .from-bottom {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
+}

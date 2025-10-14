@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IM3 – ISS Trajektorie</title>
+
+  <!-- Globales CSS -->
+  <link rel="stylesheet" href="styles.css">
+  <!-- Seiten-spezifisch -->
+  <link rel="stylesheet" href="zustand.css">
+</head>
+<body>
+  <main class="hero">
+    <header class="hero-header">
+      <h1 class="hero-title">COSMOSLIVE</h1>
+      <p class="hero-subtitle">Menschen unter der ISS sind gerade...</p>
+    </header>
+
+    <!-- Bühne für Illustration + Text -->
+    <section class="vis-stage">
+      <div id="state-illustration">
+        <!-- zustand.js setzt hier <img class="state-img" ...> ein -->
+      </div>
+      <p id="iss-visibility">Lade Sichtbarkeit…</p>
+    </section>
+  </main>
+
+  <script src="zustand.js"></script>
+</body>
+</html>

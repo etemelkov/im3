@@ -29,7 +29,7 @@
     animation-delay: 4s;
   }
   
-  /* Desktop-Feintuning (wie in deinen Mockups) */
+  /* Desktop-Feintuning  */
   @media (min-width: 992px){
     .hero-title{ font-size: 120px; }
     .hero-subtitle{ font-size: 40px; }

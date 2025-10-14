@@ -1,0 +1,60 @@
+/* ===== zustand.css — mobile-first ===== */
+
+/* Bühne unter deinem Hero-Header */
+.vis-stage{
+    min-height: calc(100svh - 20vh); /* Platz unter deinem hero padding-top */
+    display: flex;
+    align-items: center;     /* Bild vertikal zentrieren */
+    justify-content: center; /* Bild horizontal zentrieren */
+    position: relative;
+    text-align: center;
+    padding-inline: 16px;    /* kleinstes Seitenpolster auf Mobile */
+  }
+  
+  /* Container fürs Zustands-Bild */
+  #state-illustration{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+  }
+  
+  /* Bildgröße: mobile-first, fluid mit Ober-/Untergrenze */
+  .state-img{
+    width: clamp(220px, 60vw, 520px);
+    height: auto;
+    display: block;
+    pointer-events: none;
+    user-select: none;
+  }
+  
+  /* Sichtbarkeitstext: unten mittig im Viewport */
+  #iss-visibility{
+    position: fixed;
+    left: 50%;
+    bottom: 6vh;               /* Abstand vom unteren Rand */
+    transform: translateX(-50%);
+    margin: 0;
+    /* Typografie kommt aus deinem globalen styles.css (p: 23px/40px) */
+    /* Optional: leichte Kontur für bessere Lesbarkeit auf hellem Bild: */
+    text-shadow: 0 1px 8px rgba(0,0,0,.35);
+  }
+  
+  /* ===== Desktop-Tweaks ===== */
+  @media (min-width: 992px){
+    .vis-stage{
+      padding-inline: 24px;
+    }
+    .state-img{
+      width: clamp(420px, 36vw, 760px); /* größer am Desktop */
+    }
+    #iss-visibility{
+      bottom: 8vh; /* etwas höher positionieren */
+    }
+  }
+  
+  /* Bewegungsreduktion (falls du später Animationen ergänzt) */
+  @media (prefers-reduced-motion: reduce){
+    * { scroll-behavior: auto; }
+  }
+  

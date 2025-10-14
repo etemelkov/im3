@@ -1,36 +1,41 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IM3 – ISS Trajektorie</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>COSMOSLIVE – Menü</title>
 
-  <!-- CSS einbinden -->
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="stylesindex.css">
+  <!-- Global -->
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Page-specific -->
+  <link rel="stylesheet" href="menu.css" />
 </head>
 <body>
-<main class="hero">
-    <header class="hero-header">
-      <h1 class="hero-title">COSMOSLIVE</h1>
-      <p class="hero-subtitle">Echtzeitdaten aus dem All</p>
 
-      <main class="menu">
+  <header>
+    <h1 class="menu-title">COSMOSLIVE</h1>
+    <p class="menu-subtitle">Echtzeitdaten aus dem All</p>
+  </header>
+
+  <main class="menu">
+    <section class="menu-box from-left">
+      <!-- Astronaut sitzt in Spalte 1 (links), ragt leicht über den Rand -->
+      <img class="astronaut" src="img/AdobeStock_532826579.png" alt="Astronaut" />
+      <!-- Text in Spalte 2 (rechts) -->
+      <p>Verfolge die ISS live – auf der Karte oder per Kamera ins All. Und psst… Klick auf den Astronaut für eine Überraschung!</p>
+    </section>
+
+    <div class="cta-stack">
+      <a class="btn from-bottom" href="map.html">Live-Karte ISS</a>
       
-        <section class="menu-box from-left">
-          <p>Verfolge die ISS live – auf der Karte oder per Kamera ins All. Und psst… Klick auf den Alien für eine Überraschung!</p>
-        </section>
-      
-        <img class="character astronaut from-left" src="img/astronaut.png" alt="Astronaut">
-        <img class="character alien from-right" src="img/alien.png" alt="Alien">
-      
-        <div class="cta-stack">
-          <a class="btn from-bottom" href="map.html">Live-Karte ISS</a>
-          <a class="btn from-bottom" href="camera.html">Live-Kamera ISS</a>
-        </div>
-      </main>
-    </header>
-    
+      <a class="btn from-bottom"
+   href="https://www.youtube.com/live/iYmvCUonukw"
+   target="_blank"
+   rel="noopener noreferrer">
+  Live-Kamera ISS
+</a>
+    </div>
   </main>
+
 </body>
 </html>
