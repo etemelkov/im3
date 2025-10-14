@@ -54,7 +54,7 @@
       gap: clamp(25px, 2.5vh, 28px);
     }
     .state-img{
-      width: clamp(480px, 36vw, 760px);    /* größer am Desktop */
+      width: clamp(100px, 32vw, 760px);    /* größer am Desktop */
     }
   }
   
