@@ -1,4 +1,3 @@
-<!-- map.html -->
 <!doctype html>
 <html lang="de">
 <head>
@@ -6,25 +5,30 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>ISS – Aktuelle Position</title>
 
-  <!-- Richtige Styles aus deinem Repo -->
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="map.css">
+  <!-- Basis-Styles (z. B. dein allgemeines Layout) -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Spezifische Map-Styles -->
+  <link rel="stylesheet" href="map.css" />
 
   <!-- Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 <body>
- 
 
   <main class="content">
+    <!-- Karte -->
     <div id="map" aria-label="ISS Karte"></div>
+
+    <!-- Info unter der Karte -->
     <aside id="mapInfo" aria-live="polite">
-      <div class="badge"> Live</div>
+      <div class="badge">Live</div>
+      <div>Aktuelle Position der ISS in Echtzeit</div>
     </aside>
   </main>
 
-  <!-- Dein JS -->
+  <!-- ISS Script -->
   <script type="module" src="script.js"></script>
 </body>
 </html>
