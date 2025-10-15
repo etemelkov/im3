@@ -1,34 +1,30 @@
-<!DOCTYPE html>
+<!-- map.html -->
+<!doctype html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Kite At Sunset – ISS Live Map</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ISS – Aktuelle Position</title>
 
-  <!-- deine Hauptstyles -->
-  <link rel="stylesheet" href="css/styles.css" />
+  <!-- Richtige Styles aus deinem Repo -->
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="map.css">
 
   <!-- Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
-
 <body>
-  <header class="hero">
-    <h1>ISS – Aktuelle Position</h1>
-    <p>Live getrackt und auf der Karte mit <strong>ISS.png</strong> markiert.</p>
-  </header>
+ 
 
   <main class="content">
     <div id="map" aria-label="ISS Karte"></div>
     <aside id="mapInfo" aria-live="polite">
-      <div class="badge">Live</div>
-      <div>Quelle: <code>unload.php</code></div>
-      <div>Marker: <code>img/ISS.png</code></div>
+      <div class="badge"> Live</div>
     </aside>
   </main>
 
-  <!-- Externe JS-Datei -->
+  <!-- Dein JS -->
   <script type="module" src="script.js"></script>
 </body>
 </html>
