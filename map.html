@@ -2,35 +2,33 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IM3 – ISS Karte</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kite At Sunset – ISS Live Map</title>
 
-  <!-- Dein globales CSS (optional) -->
-  <link rel="stylesheet" href="styles.css" />
+  <!-- deine Hauptstyles -->
+  <link rel="stylesheet" href="css/style.css" />
 
-  <!-- Leaflet CSS -->
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-sA+4J7mS5GJdFvN1sQ70CwT6Y7Y1Y7E8j6wZfZ1Z3ok="
-    crossorigin=""
-  />
-
-  <!-- Seiten-CSS -->
-  <link rel="stylesheet" href="map.css" />
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
+
 <body>
-  <!-- Vollbild-Karte -->
-  <div id="map" role="region" aria-label="Karte"></div>
+  <header class="hero">
+    <h1>ISS – Aktuelle Position</h1>
+    <p>Live getrackt und auf der Karte mit <strong>ISS.png</strong> markiert.</p>
+  </header>
 
-  <!-- Leaflet JS -->
-  <script
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-o9N1j7kG8hZ6qG5f7V4zKqQvWm2s1iG1J1Qz6VQvCj0="
-    crossorigin=""
-  ></script>
+  <main class="content">
+    <div id="map" aria-label="ISS Karte"></div>
+    <aside id="mapInfo" aria-live="polite">
+      <div class="badge">Live</div>
+      <div>Quelle: <code>unload.php</code></div>
+      <div>Marker: <code>img/ISS.png</code></div>
+    </aside>
+  </main>
 
-  <!-- Seiten-JS -->
-  <script src="map.js" defer></script>
+  <!-- Externe JS-Datei -->
+  <script type="module" src="script.js"></script>
 </body>
 </html>

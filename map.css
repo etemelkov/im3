@@ -1,14 +1,68 @@
-/* Vollbild-Karte – mobile first */
-html, body { height: 100%; margin: 0; }
-#map{
-  position: fixed;
-  inset: 0;            /* top/right/bottom/left: 0 */
+/* ====== AB HIER: Ergänzungen für die Karte ====== */
+
+/* Container um Überschrift (optisch vom Mapbereich absetzen) */
+.hero {
+  margin-bottom: 2.5rem;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.35);
 }
 
-/* Attribution dezent auf dunklem Untergrund (optional) */
-.leaflet-control-attribution{
-  background: rgba(0,0,0,.5) !important;
-  color: #fff !important;
+/* Haupt-Content-Wrapper (Map) */
+.content {
+  width: 100%;
+  display: grid;
+  place-items: center;
+}
+
+/* Karte selbst – responsiv in der Höhe, zentriert */
+#map {
+  width: min(95vw, 1400px);
+  height: 70vh;              /* Mobile/Tablet */
+  border-radius: 18px;
+  overflow: hidden;          /* Rundung für Leaflet-Kacheln */
+  box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+  outline: 1px solid rgba(255,255,255,0.15);
+}
+
+/* Desktop: etwas mehr Höhe */
+@media (min-width: 992px) {
+  #map { height: 78vh; }
+}
+
+/* Kleine Info-Box oben rechts (optional) */
+#mapInfo {
+  position: relative;
+  width: min(95vw, 1400px);
+  margin-top: 0.75rem;
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: flex-end;
+  color: #ffffff;
+  text-align: right;
+  font-size: 0.95rem;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+#mapInfo .badge {
+  background: #e53935;
+  color: #fff;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+}
+
+/* Leaflet-Finetuning */
+.leaflet-container a {
+  color: #1976d2; /* Linkfarbe in Attribution */
+}
+.leaflet-control-attribution {
+  background: rgba(0,0,0,0.35);
+  color: #fff;
   border-radius: 8px;
-  padding: 0 6px !important;
+  backdrop-filter: blur(2px);
+}
+.leaflet-control-zoom a {
+  color: #222;
 }
