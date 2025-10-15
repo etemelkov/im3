@@ -39,8 +39,8 @@ function extractLatLon(raw) {
   // 1) open-notify Stil: { iss_position: { latitude: "12.34", longitude: "56.78" } }
   if (raw.iss_position && raw.iss_position.latitude && raw.iss_position.longitude) {
     return {
-      lat: parseFloat(raw.iss_position.latitude),
-      lon: parseFloat(raw.iss_position.longitude)
+      latitude: parseFloat(raw.iss_position.latitude),
+      longitude: parseFloat(raw.iss_position.longitude)
     };
   }
 
