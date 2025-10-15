@@ -1,17 +1,13 @@
-// script.js
-
 // =====================
 // Konfiguration
 // =====================
 const API_URL = 'https://www.elenatemelkov.ch/unload.php';
-const REFRESH_MS = 10000;           // alle 10s neu laden
-const ISS_ICON_URL = 'img/ISS.png'; // Pfad zu deinem Marker-Icon
-
-// Standard-Zeitfenster (in Stunden): 1, 2, 3
-let currentWindowHours = 1;
+const REFRESH_MS = 10000;            // alle 10s neu laden
+const ISS_ICON_URL = 'img/ISS.png';  // Pfad zu deinem ISS-Icon
+let currentWindowHours = 1;          // Buttons (1h / 2h / 3h)
 
 // =====================
-// Leaflet Grundsetup
+// Leaflet Setup
 // =====================
 const map = L.map('map', { worldCopyJump: true });
 
@@ -19,23 +15,22 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution:'&copy; OpenStreetMap contributors'
 }).addTo(map);
 
-map.setView([0, 0], 2);
+map.setView([0,0], 2);
 
 const issIcon = L.icon({
   iconUrl: ISS_ICON_URL,
-  iconSize: [64, 64],
-  iconAnchor: [32, 32],
-  popupAnchor: [0, -32]
+  iconSize: [64,64],
+  iconAnchor: [32,32],
+  popupAnchor: [0,-32]
 });
 
 // =====================
 // State
 // =====================
 let issMarker = null;
-let lastUpdate = null;          // Date des letzten Datensatzes (oder Fetch-Zeit)
-let historyData = [];           // [{ lat:Number, lon:Number, t:Date|null }]
+let lastUpdate = null;     // Date des letzten Datensatzes (oder Fetch-Zeit)
+let historyData = [];      // [{ lat:Number, lon:Number, t:Date|null }]
 
-// Darstellungs-Layer
 const trail = L.polyline([], { weight: 2.5, opacity: 0.9, color: '#ffffff' }).addTo(map);
 const pointsLayer = L.layerGroup().addTo(map);
 
@@ -50,9 +45,9 @@ function fmtTime(d){
   });
 }
 
-function popupHTML(lat, lon, t){
+function infoHTML(lat, lon, t){
   return `
-    <div style="font:600 14px/1.35 system-ui, -apple-system, Segoe UI, Roboto;">
+    <div style="font:600 14px/1.35 system-ui, -apple-system, Segoe UI, Roboto">
       <div><strong>Lat.:</strong> ${lat.toFixed(4)}</div>
       <div><strong>Lon.:</strong> ${lon.toFixed(4)}</div>
       <div><strong>Zeit:</strong> ${fmtTime(t || lastUpdate)}</div>
@@ -62,7 +57,7 @@ function popupHTML(lat, lon, t){
 
 function pointTooltipHTML(p){
   return `
-    <div style="font:600 12px/1.25 system-ui, -apple-system, Segoe UI, Roboto;">
+    <div style="font:600 12px/1.25 system-ui, -apple-system, Segoe UI, Roboto">
       <div><strong>Lat.:</strong> ${p.lat.toFixed(4)}</div>
       <div><strong>Lon.:</strong> ${p.lon.toFixed(4)}</div>
       <div><strong>Zeit:</strong> ${fmtTime(p.t || lastUpdate)}</div>
@@ -73,17 +68,13 @@ function pointTooltipHTML(p){
 // =====================
 // Parsing der API-Antwort
 // =====================
-
-// Einzelnes Objekt -> {lat, lon, t?}
 function getPointFromObject(o){
   if (!o || typeof o !== 'object') return null;
 
-  // Koordinatenfelder tolerant lesen
   const lat = o.latitude ?? o.lat ?? (Array.isArray(o.latlon) ? o.latlon[0] : undefined);
   const lon = o.longitude ?? o.lon ?? o.lng ?? (Array.isArray(o.latlon) ? o.latlon[1] : undefined);
   if (lat == null || lon == null) return null;
 
-  // Zeitfelder tolerant lesen (Epoch/ISO)
   let timeRaw = o.timestamp ?? o.time ?? o.t ?? o.date ?? o.datetime ?? o.created_at;
   let t = null;
   if (timeRaw != null) {
@@ -102,23 +93,19 @@ function getPointFromObject(o){
   return { lat: latNum, lon: lonNum, t };
 }
 
-// Beliebige Antwort -> { last, points[] }
 function normalizeResponse(raw){
   const points = [];
 
-  // direkter Datensatz?
   const direct = getPointFromObject(raw?.iss_position ?? raw?.data ?? raw);
   if (direct) points.push(direct);
 
-  // Array von Datensätzen?
-  if (Array.isArray(raw)) {
-    for (const item of raw) {
+  if (Array.isArray(raw)){
+    for (const item of raw){
       const p = getPointFromObject(item?.iss_position ?? item?.data ?? item);
       if (p) points.push(p);
     }
   }
 
-  // sortieren nach Zeit (ohne Zeit = 0)
   points.sort((a,b) => {
     const ta = a.t ? a.t.getTime() : 0;
     const tb = b.t ? b.t.getTime() : 0;
@@ -130,11 +117,11 @@ function normalizeResponse(raw){
 }
 
 // =====================
-// Daten holen & verarbeiten
+// Daten holen & darstellen
 // =====================
 async function fetchData(){
   try{
-    const res = await fetch(API_URL, { cache: 'no-store' });
+    const res = await fetch(API_URL, { cache:'no-store' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const json = await res.json();
 
@@ -144,24 +131,25 @@ async function fetchData(){
       return;
     }
 
-    // Historie zusammenführen
     mergeHistory(points);
 
-    // Letzten Punkt nutzen
     lastUpdate = last.t || new Date();
     const latlng = [last.lat, last.lon];
 
     if (!issMarker){
-      issMarker = L.marker(latlng, { icon: issIcon })
-        .addTo(map)
-        .bindPopup(popupHTML(last.lat, last.lon, last.t));
+      issMarker = L.marker(latlng, { icon: issIcon }).addTo(map);
+      // NUR Hover: Tooltip (kein Popup)
+      issMarker.bindTooltip(infoHTML(last.lat, last.lon, last.t), {
+        direction: 'top',
+        sticky: true,
+        opacity: 0.95
+      });
       map.setView(latlng, 4, { animate: true });
     } else {
       issMarker.setLatLng(latlng);
-      issMarker.setPopupContent(popupHTML(last.lat, last.lon, last.t));
+      issMarker.setTooltipContent(infoHTML(last.lat, last.lon, last.t));
     }
 
-    // Pfad + Punkte für aktuelles Fenster
     updateTrailAndPoints();
 
   } catch (err) {
@@ -169,12 +157,11 @@ async function fetchData(){
   }
 }
 
-// Historie mergen (Duplikate vermeiden)
 function mergeHistory(newPoints){
   const toAdd = newPoints.map(p => ({ lat: p.lat, lon: p.lon, t: p.t || null }));
   historyData = historyData.concat(toAdd);
 
-  // Duplikate anhand lat/lon/time eliminieren
+  // Duplikate entfernen
   const seen = new Set();
   historyData = historyData.filter(p => {
     const key = `${p.lat.toFixed(6)},${p.lon.toFixed(6)},${p.t ? p.t.getTime() : 'x'}`;
@@ -183,7 +170,6 @@ function mergeHistory(newPoints){
     return true;
   });
 
-  // sortieren nach Zeit
   historyData.sort((a,b) => {
     const ta = a.t ? a.t.getTime() : 0;
     const tb = b.t ? b.t.getTime() : 0;
@@ -191,12 +177,10 @@ function mergeHistory(newPoints){
   });
 }
 
-// Trail + Punkte für das gewählte Zeitfenster zeichnen
 function updateTrailAndPoints(){
   const now = new Date();
   const from = new Date(now.getTime() - currentWindowHours * 60 * 60 * 1000);
 
-  // Wenn keine Zeiten vorhanden sind, fallback: letzte 200 Punkte
   let filtered;
   if (historyData.some(p => !!p.t)) {
     filtered = historyData.filter(p => !p.t || p.t >= from);
@@ -204,17 +188,16 @@ function updateTrailAndPoints(){
     filtered = historyData.slice(-200);
   }
 
-  // Pfad
+  // Pfad aktualisieren
   const latlngs = filtered.map(p => [p.lat, p.lon]);
   trail.setLatLngs(latlngs);
 
-  // Punkte
+  // Punkte (etwas größer) – nur Tooltip (Hover), KEIN Popup
   pointsLayer.clearLayers();
-  const pointStyle = { radius: 3, color: '#ffffff', fillColor: '#ffffff', fillOpacity: 0.95, weight: 1 };
+  const pointStyle = { radius: 4, color: '#ffffff', fillColor: '#ffffff', fillOpacity: 0.95, weight: 1 };
   for (const p of filtered){
     const m = L.circleMarker([p.lat, p.lon], pointStyle)
-      .bindTooltip(pointTooltipHTML(p), { direction: 'top', sticky: true, opacity: 0.95 })
-      .bindPopup(popupHTML(p.lat, p.lon, p.t));
+      .bindTooltip(pointTooltipHTML(p), { direction: 'top', sticky: true, opacity: 0.95 });
     pointsLayer.addLayer(m);
   }
 }
@@ -226,8 +209,6 @@ const ButtonsControl = L.Control.extend({
   options: { position: 'topleft' },
   onAdd: function(){
     const container = L.DomUtil.create('div', 'leaflet-control custom-buttons');
-
-    // Propagation verhindern (damit man beim Klicken nicht die Karte bewegt)
     L.DomEvent.disableClickPropagation(container);
     L.DomEvent.disableScrollPropagation(container);
 
@@ -237,12 +218,10 @@ const ButtonsControl = L.Control.extend({
     homeBtn.textContent = 'Home';
     homeBtn.addEventListener('click', () => { window.location.href = 'menu.html'; });
 
-    // Zeitfenster-Buttons
+    // Zeitfenster
     const btn1 = makeRangeBtn(container, '1h', 1);
     const btn2 = makeRangeBtn(container, '2h', 2);
     const btn3 = makeRangeBtn(container, '3h', 3);
-
-    // Standard aktiv
     btn1.classList.add('active');
 
     function makeRangeBtn(parent, label, hours){
@@ -263,7 +242,7 @@ const ButtonsControl = L.Control.extend({
 map.addControl(new ButtonsControl());
 
 // =====================
-// Start: initial + Intervall
+// Start
 // =====================
 fetchData();
 setInterval(fetchData, REFRESH_MS);

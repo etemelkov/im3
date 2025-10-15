@@ -5,10 +5,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>ISS – Aktuelle Position</title>
 
-  <!-- Basis-Styles (z. B. dein allgemeines Layout) -->
+  <!-- Basis-Styles -->
   <link rel="stylesheet" href="styles.css" />
-
-  <!-- Spezifische Map-Styles -->
+  <!-- Map-Styles -->
   <link rel="stylesheet" href="map.css" />
 
   <!-- Leaflet -->
@@ -18,17 +17,10 @@
 <body>
 
   <main class="content">
-    <!-- Karte -->
     <div id="map" aria-label="ISS Karte"></div>
-
-    <!-- Info unter der Karte -->
-    <aside id="mapInfo" aria-live="polite">
-      <div class="badge">Live</div>
-      <div>Aktuelle Position der ISS in Echtzeit</div>
-    </aside>
   </main>
 
-  <!-- ISS Script -->
+  <!-- JS -->
   <script type="module" src="script.js"></script>
 </body>
 </html>
