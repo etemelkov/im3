@@ -150,7 +150,7 @@
   /* Adjust Buttons */
   .btn {
     font-size: 40px; /* Larger font size for desktop */
-    height: 40px;
+    height: 35px;
     padding: 10px 20px;
   }
 }

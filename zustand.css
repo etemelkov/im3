@@ -2,8 +2,7 @@
 
 /* Bühne unter dem Hero-Header */
 .vis-stage{
-  /* nimmt den verfügbaren Viewportraum unter deinem globalen Body-Top-Padding ein */
-  min-height: calc(100svh - 20vh);
+ 
 
   /* Spalten-Layout: Bild über Text */
   display: flex;
@@ -54,7 +53,7 @@
 /* ----------------------------------------------------- */
 .btn-wrapper {
   /* Container, um den Button vom Text abzusetzen und zu zentrieren */
-  margin-top: 10px; /* Abstand zum oberen Element (Text/Bild) */
+  margin-top: 35px; /* Abstand zum oberen Element (Text/Bild) */
   display: flex;
   justify-content: center; /* Wichtig für die horizontale Zentrierung */
   width: 100%; /* Nimmt volle Breite an, um Zentrierung zu ermöglichen */
