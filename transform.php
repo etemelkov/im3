@@ -28,7 +28,7 @@ if (is_array($data)) {
 
     // Aktuelle Schweizer Zeit (Datum + Uhrzeit)
     date_default_timezone_set('Europe/Zurich');
-    $zeit = date('Y-m-d H:i:s'); // ✅ Speichert vollständigen Timestamp für Verlauf/Filter
+    $zeit = date('Y-m-d H:i:s'); // Speichert vollständigen Timestamp für Verlauf/Filter
 
     // Sichtbarkeit als Text
     $status = interpretVisibility($data['visibility']);
