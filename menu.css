@@ -64,7 +64,9 @@
   justify-content: center; /* zentriert alle Grid-Kinder */
   gap: clamp(30px, 3vw, 18px);
   width: min(92vw, 420px);
-  margin: clamp(130px, 4vh, 36px) auto clamp(8px, 3vh, 24px); /* Spacing from the menu-box */
+  /* HIER WURDE DIE TOP-MARGIN (erster Wert) VON 130PX AUF 180PX ERHÖHT, 
+     um den Abstand zum Astronauten zu schaffen. */
+  margin: clamp(180px, 4vh, 36px) auto clamp(8px, 3vh, 24px); 
 }
 
 /* Buttons */
@@ -146,9 +148,9 @@
 
   /* Adjust Astronaut */
   .menu-box .astronaut {
-    /* NEU: Feste Größe für Desktop */
-    width: 190px; /* Feste Breite (z.B. 190px) */
-    /* Position beibehalten, nur bottom leicht anpassen, da der Button Stack weiter unten startet */
+    /* Feste Größe für Desktop */
+    width: 190px;
+    /* Position beibehalten */
     bottom: -160px; 
     left: 115px; 
     transform: translate(-65%, 0%);
