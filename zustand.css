@@ -106,7 +106,7 @@ outline: none;
   .btn {
       font-size: 40px; /* Larger font size for desktop */
       height: 40px;
-      width: 300px /* fixe Breite */
+      width: 250px /* fixe Breite */
   }
 }
 
