@@ -18,6 +18,11 @@
   overflow: visible; /* Allow figure to slightly overlap */
   z-index: 1; /* Below the figure */
   transition: background-color 0.2s, color 0.2s, border-color 0.2s, border-radius 0.2s;
+  
+  /* NEU: Flexbox für die vertikale Zentrierung */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Zentriert den Inhalt (Astronaut-Link & Text) vertikal */
 }
 .menu-box > * + * {
   margin-top: 10px; /* Acts like gap: 10px */

@@ -32,7 +32,7 @@
 /* Bildgröße: mobile-first, fluid */
 .state-img{
   width: clamp(240px, 60vw, 520px);
-  max-width: 70%; /* Reduziert die maximale Größe des Bildes */
+  max-width: 80%; /* Reduziert die maximale Größe des Bildes */
   height: auto;
   display: block;
   pointer-events: none;
@@ -64,7 +64,7 @@
 display: flex;
 align-items: center;
 justify-content: center;
-width: min(60vw, 409px);
+width: 180px; /* Feste Breite für Konsistenz */
 height: 35px;
 padding: 10px 20px;
 border-radius: 20px;
@@ -99,14 +99,14 @@ outline: none;
   /* BILD FÜR DESKTOP KLEINER MACHEN (45% max. Breite) */
   .state-img{
       width: clamp(240px, 45vw, 600px); 
-      max-width: 55%; /* Reduziert die maximale Größe des Bildes */
+      max-width: 60%; /* Reduziert die maximale Größe des Bildes */
   }
 
   /* Button auf Desktop-Größe anpassen */
   .btn {
       font-size: 40px; /* Larger font size for desktop */
       height: 40px;
-      width: min(20vw, 400px); /* Breiter, aber nicht so breit wie auf Mobile relativ */
+      width: 300px /* fixe Breite */
   }
 }
 
