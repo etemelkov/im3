@@ -6,7 +6,7 @@
   <title>IM3 – ISS Trajektorie</title>
   <base href="./">
 
-  <!-- Globales CSS -->
+  <!-- Globales CSS (angenommen) -->
   <link rel="stylesheet" href="styles.css">
   <!-- Seiten-spezifisch -->
   <link rel="stylesheet" href="zustand.css">
@@ -15,17 +15,32 @@
   <main class="hero">
         <header class="hero-header">
           <h1 class="hero-title">COSMOSLIVE</h1>
-          <p class="hero-subtitle">Menschen, welche sich gerade unter der ISS befinden... Go Back Button nicht vergessen</p>
+          <p class="hero-subtitle">Menschen, welche sich gerade unter der ISS befinden...</p>
         </header>
       
         <section class="vis-stage">
-          <div id="state-illustration"></div>
-          <p id="iss-visibility">Lade Sichtbarkeit…</p>
+            
+            <!-- Das Bild-Element mit der Klasse für das Styling -->
+            <div id="state-illustration">
+                <!-- HINWEIS: Hier sollte das tatsächliche Bild eingefügt werden, z.B. -->
+                <img src="assets/zustandsgrafik.png" alt="Aktuelle Position und Visualisierung der ISS" class="state-img">
+            </div>
+          
+  
+
+            <!-- NEU: Button-Wrapper für die Zentrierung und den Button -->
+            <div class="btn-wrapper">
+                <a href="menu.html" class="btn">
+                    Zurück
+                </a>
+            </div>
+            
         </section>
-      
+
+        
     
   </main>
 
-  <script src="zustand.js"></script>
+<script src="zustand.js"></script> 
 </body>
 </html>

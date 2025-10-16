@@ -215,7 +215,7 @@ const ButtonsControl = L.Control.extend({
     // Home
     const homeBtn = L.DomUtil.create('button', 'custom-btn home', container);
     homeBtn.title = 'Zurück zum Menü';
-    homeBtn.textContent = 'Home';
+    homeBtn.textContent = 'Zurück';
     homeBtn.addEventListener('click', () => { window.location.href = 'menu.html'; });
 
     // Zeitfenster

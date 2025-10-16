@@ -38,7 +38,7 @@
   width: clamp(100px, 16vw, 180px); /* Responsive size */
   height: auto;
   z-index: 5; /* Above the box */
-  pointer-events: auto;   /* überschreibt dein 'none' */
+  pointer-events: auto;   /* überschreibt das 'none' */
   cursor: pointer; /* Bild darf geklickt werden */
 }
 
@@ -150,7 +150,7 @@
   /* Adjust Buttons */
   .btn {
     font-size: 40px; /* Larger font size for desktop */
-    height: 60px;
+    height: 40px;
     padding: 10px 20px;
   }
 }

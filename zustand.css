@@ -2,64 +2,116 @@
 
 /* Bühne unter dem Hero-Header */
 .vis-stage{
-    /* nimmt den verfügbaren Viewportraum unter deinem globalen Body-Top-Padding ein */
-    min-height: calc(100svh - 20vh);
-  
-    /* Spalten-Layout: Bild über Text */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  
-    /* statt exakter Zentrierung: weiter nach oben rücken */
-    justify-content: flex-start;
-    padding-top: clamp(6vh, 10vh, 12vh);
-  
-    /* fixer Abstand zwischen Bild und Text */
-    gap: clamp(80px, 3vh, 24px);
-  
-    text-align: center;
-    padding-inline: 16px;
-    position: relative;
-  }
-  
-  /* Container fürs Zustands-Bild */
-  #state-illustration{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    max-width: 100%;
-  }
-  
-  /* Bildgröße: mobile-first, fluid */
-  .state-img{
-    width: clamp(240px, 60vw, 520px);
-    height: auto;
-    display: block;
-    pointer-events: none;
-    user-select: none;
-  }
-  
-  /* Sichtbarkeitstext: direkt unter dem Bild, Abstand via gap */
-  #iss-visibility{
-    margin: 0;               /* Abstand kommt aus .vis-stage -> gap */
-    text-shadow: 0 1px 8px rgba(0,0,0,.35);
-    /* Typografie (23px/40px) kommt aus deinem globalen styles.css */
-  }
-  
-  /* ===== Desktop-Tweaks ===== */
-  @media (min-width: 992px){
-    .vis-stage{
+  /* nimmt den verfügbaren Viewportraum unter deinem globalen Body-Top-Padding ein */
+  min-height: calc(100svh - 20vh);
+
+  /* Spalten-Layout: Bild über Text */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Zentriert alles horizontal */
+
+  /* statt exakter Zentrierung: weiter nach oben rücken */
+  justify-content: flex-start;
+  padding-top: clamp(6vh, 10vh, 12vh);
+
+  /* fixer Abstand zwischen Bild und Text */
+  gap: clamp(80px, 3vh, 24px);
+
+  text-align: center;
+  padding-inline: 16px;
+  position: relative;
+}
+
+/* Container fürs Zustands-Bild */
+#state-illustration{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+}
+
+/* Bildgröße: mobile-first, fluid */
+.state-img{
+  width: clamp(240px, 60vw, 520px);
+  max-width: 70%; /* Reduziert die maximale Größe des Bildes */
+  height: auto;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+  /* Zusätzlicher Rand unten, falls es keinen Text gibt, den der Button abdeckt */
+  margin-bottom: 20px; 
+}
+
+/* Sichtbarkeitstext: direkt unter dem Bild, Abstand via gap */
+#iss-visibility{
+  margin: 0;               /* Abstand kommt aus .vis-stage -> gap */
+  text-shadow: 0 1px 8px rgba(0,0,0,.35);
+  /* Typografie (23px/40px) kommt aus deinem globalen styles.css */
+}
+
+/* ----------------------------------------------------- */
+/* REPLIZIERTER BUTTON-STIL AUS menu.css (Klasse .btn) */
+/* ----------------------------------------------------- */
+.btn-wrapper {
+  /* Container, um den Button vom Text abzusetzen und zu zentrieren */
+  margin-top: 10px; /* Abstand zum oberen Element (Text/Bild) */
+  display: flex;
+  justify-content: center; /* Wichtig für die horizontale Zentrierung */
+  width: 100%; /* Nimmt volle Breite an, um Zentrierung zu ermöglichen */
+}
+
+.btn {
+/* Stil aus menu.css übernommen */
+display: flex;
+align-items: center;
+justify-content: center;
+width: min(60vw, 409px);
+height: 35px;
+padding: 10px 20px;
+border-radius: 20px;
+border: 3px solid #FFF;
+background: #000;
+color: #FFF;
+text-decoration: none;
+font-family: inherit; /* Inherits Open Sans from body */
+font-weight: 300;
+font-size: 23px; /* Matches paragraph font size on mobile */
+line-height: normal;
+text-align: center;
+transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.btn:hover,
+.btn:focus-visible {
+transform: translateY(-2px);
+background: #FFF;
+color: #000;
+border-color: #000;
+outline: none;
+}
+
+/* ===== Desktop-Tweaks ===== */
+@media (min-width: 992px){
+  .vis-stage{
       padding-inline: 24px;
       padding-top: clamp(6vh, 8vh, 10vh); /* am Desktop etwas höher starten */
       gap: clamp(25px, 2.5vh, 28px);
-    }
-    .state-img{
-      width: clamp(100px, 32vw, 760px);    /* größer am Desktop */
-    }
   }
-  
-  /* Bewegungsreduktion (falls später Animationen kommen) */
-  @media (prefers-reduced-motion: reduce){
-    * { scroll-behavior: auto; }
+
+  /* BILD FÜR DESKTOP KLEINER MACHEN (45% max. Breite) */
+  .state-img{
+      width: clamp(240px, 45vw, 600px); 
+      max-width: 55%; /* Reduziert die maximale Größe des Bildes */
   }
-  
+
+  /* Button auf Desktop-Größe anpassen */
+  .btn {
+      font-size: 40px; /* Larger font size for desktop */
+      height: 40px;
+      width: min(20vw, 400px); /* Breiter, aber nicht so breit wie auf Mobile relativ */
+  }
+}
+
+/* Bewegungsreduktion (falls später Animationen kommen) */
+@media (prefers-reduced-motion: reduce){
+  * { scroll-behavior: auto; }
+}
