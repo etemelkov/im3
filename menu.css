@@ -67,7 +67,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: min(60vw, 409px);
+  width: 300px; /* Feste Breite für Konsistenz */
   height: 35px;
   padding: 10px 20px;
   border-radius: 20px;
@@ -156,6 +156,7 @@
   .btn {
     font-size: 40px; /* Larger font size for desktop */
     height: 40px;
+    width: 350px; /* fixe Breite */
     padding: 10px 20px;
   }
 }
