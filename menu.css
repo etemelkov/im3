@@ -67,7 +67,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 300px; /* Feste Breite für Konsistenz */
+  width: min(50vw, 300px);
   height: 35px;
   padding: 10px 20px;
   border-radius: 20px;
