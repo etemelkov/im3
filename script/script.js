@@ -388,22 +388,17 @@ const ButtonsControl = L.Control.extend({
     homeBtn.addEventListener('click', () => { window.location.href = 'menu.html'; });
 
     // 2. Dropdown-Menü
-    const select = L.DomUtil.create('select', 'custom-btn custom-select', container);
+    // Die Klasse 'options-select' wird verwendet, um die Zentrierung in allen Browsern zu gewährleisten
+    const select = L.DomUtil.create('select', 'custom-btn custom-select options-select', container); 
     select.title = 'Optionen auswählen';
     select.style.width = '100%'; // Nimmt die Container-Breite an
-    // ANPASSUNG: Zentrierung des angezeigten Textes beibehalten
-    select.style.textAlign = 'center'; 
-    // NEU: Schriftart auf system-ui setzen
-    select.style.fontFamily = 'system-ui, -apple-system, Segoe UI, Roboto, sans-serif'; 
-    
+
     // Standard-Option/Titel
     const defaultOption = L.DomUtil.create('option', '', select);
     defaultOption.textContent = 'Optionen';
     defaultOption.value = 'default';
     defaultOption.disabled = true;
     defaultOption.selected = true;
-    // NEU: Schriftart für die Dropdown-Elemente setzen
-    defaultOption.style.fontFamily = 'system-ui, -apple-system, Segoe UI, Roboto, sans-serif'; 
 
     // Optionen hinzufügen
     const optionsData = [
@@ -414,13 +409,10 @@ const ButtonsControl = L.Control.extend({
     ];
 
     optionsData.forEach(data => {
-      // Zentriert den Text in der Dropdown-Liste
       const opt = L.DomUtil.create('option', '', select);
       opt.textContent = data.label;
       opt.value = data.value;
-      opt.style.textAlign = 'center'; 
-      // NEU: Schriftart für die Dropdown-Elemente setzen
-      opt.style.fontFamily = 'system-ui, -apple-system, Segoe UI, Roboto, sans-serif'; 
+      // Entferne alle inline-Styles, damit die globale CSS-Lösung funktioniert
     });
 
     // Event Listener für Dropdown
@@ -457,6 +449,48 @@ const ButtonsControl = L.Control.extend({
   }
 });
 map.addControl(new ButtonsControl());
+
+// =====================
+// Custom CSS für die universelle Dropdown-Korrektur (Fix für Safari UND Chrome)
+// =====================
+(function () {
+    const style = document.createElement('style');
+    style.innerHTML = `
+        .options-select {
+            /* 1. Einheitliches Aussehen erzwingen (deaktiviert natives Styling in allen Browsern) */
+            -webkit-appearance: none; 
+            -moz-appearance: none;    
+            appearance: none;         
+            
+            /* 2. Textzentrierung und Schriftart */
+            text-align: center; /* Zentriert den Text in der Select-Box */
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif !important;
+            font-weight: 600;
+
+            /* 3. Dropdown-Pfeil manuell durch SVG ersetzen */
+            /* Schwarzer Pfeil (fill='%23000'), der rechts positioniert wird */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            
+            /* Positionierung des Pfeils: 10px vom rechten Rand, vertikal zentriert */
+            background-position: right 10px center; 
+            background-size: 14px 14px; 
+            
+            /* 4. Platz für den Pfeil schaffen */
+            /* Fügt rechts einen Innenabstand hinzu, damit der Text nicht unter dem Pfeil verschwindet */
+            padding-right: 30px; 
+
+            /* 5. Entferne den störenden text-indent, der nur in Safari nötig war und in Chrome stört */
+            text-indent: 0; 
+        }
+
+        /* Workaround für Firefox, um native Dropdown-Symbole zu unterdrücken */
+        .options-select::-ms-expand {
+            display: none;
+        }
+    `;
+    document.head.appendChild(style);
+})();
 
 
 // =====================
