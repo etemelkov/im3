@@ -6,8 +6,11 @@ const REFRESH_MS = 10000;            // alle 10s neu laden
 const ISS_ICON_URL = 'img/ISS.png';  // Pfad zu deinem ISS-Icon
 let currentWindowHours = 1;          // Buttons (1h / 2h / 3h)
 
-// Zählfenster auf 7 Tage gesetzt
-const PASS_COUNT_DAYS = 7; 
+// Zählfenster auf 14 Tage gesetzt
+const PASS_COUNT_DAYS = 14; 
+// Toleranz in Grad für die Überflug-Zählung (1.0 Grad ≈ 110 km)
+// Dies ist ein realistischerer Radius für einen "nahen" Überflug als der vorherige Wert (0.5°)
+const TOLERANCE_DEG = 1.0; 
 
 // =====================
 // Leaflet Setup
@@ -38,7 +41,7 @@ const trail = L.polyline([], { weight: 2.5, opacity: 0.9, color: '#ffffff' }).ad
 const pointsLayer = L.layerGroup().addTo(map);
 
 // =====================
-// Utils & Parsing (Unverändert)
+// Utils & Parsing
 // =====================
 function fmtTime(d){
   if (!d) return '—';
@@ -106,13 +109,12 @@ function normalizeResponse(raw){
 
 
 // =====================
-// Logik für Überflüge über benutzerdefinierte Koordinaten (Unverändert)
+// Logik für Überflüge über benutzerdefinierte Koordinaten
 // =====================
 
 /**
- * Zählt Überflüge über einen bestimmten Punkt (Lat/Lon) innerhalb der letzten 7 Tage.
- * Definiert einen "Überflug" als das Eintreten der ISS in einen 0.5°-Kasten um den Punkt.
- * (0.5° entspricht etwa 55 km).
+ * Zählt Überflüge über einen bestimmten Punkt (Lat/Lon) innerhalb der letzten ${PASS_COUNT_DAYS} Tage.
+ * Definiert einen "Überflug" als das Eintreten der ISS in einen Kasten um den Punkt.
  * @param {number} userLat - Breitengrad des benutzerdefinierten Standorts
  * @param {number} userLon - Längengrad des benutzerdefinierten Standorts
  * @returns {number} - Anzahl der Überflüge
@@ -120,16 +122,16 @@ function normalizeResponse(raw){
 function countPassesOverPoint(userLat, userLon) {
     let passCount = 0;
     let isCurrentlyOver = false;
-    const TOLERANCE = 0.5; // Toleranz in Grad (Breite/Länge)
 
     const now = new Date();
     const filterTime = new Date(now.getTime() - PASS_COUNT_DAYS * 24 * 60 * 60 * 1000);
-    const points7d = historyData.filter(p => p.t && p.t >= filterTime);
+    const pointsFiltered = historyData.filter(p => p.t && p.t >= filterTime);
 
-    for (const point of points7d) {
+    for (const point of pointsFiltered) {
         // Prüft, ob der Punkt innerhalb des Toleranz-Rechtecks liegt
-        const isNear = Math.abs(point.lat - userLat) < TOLERANCE && 
-                       Math.abs(point.lon - userLon) < TOLERANCE;
+        // **Verwendet die neue, grössere TOLERANCE_DEG**
+        const isNear = Math.abs(point.lat - userLat) < TOLERANCE_DEG && 
+                       Math.abs(point.lon - userLon) < TOLERANCE_DEG;
 
         // 1. Übergang: Von Nicht-Überflug zu Überflug
         if (isNear && !isCurrentlyOver) {
@@ -162,19 +164,19 @@ async function fetchFullHistoryAndCurrent(){
       return;
     }
     
-    // 2. Historische Daten für 7 Tage holen 
+    // 2. Historische Daten für 14 Tage holen 
     let historyJson = [];
     try {
-        // Annahme: API unterstützt '?history=7d'
-        const historyRes = await fetch(`${API_URL}?history=7d`, { cache:'no-store' });
+        // Annahme: API unterstützt '?history=14d'
+        const historyRes = await fetch(`${API_URL}?history=${PASS_COUNT_DAYS}d`, { cache:'no-store' });
         if (historyRes.ok) {
             historyJson = await historyRes.json();
         } else {
-            console.warn(`Historie HTTP ${historyRes.status} oder 7-Tage-Endpunkt nicht vorhanden. Fallback auf lokale Historie.`);
+            console.warn(`Historie HTTP ${historyRes.status} oder ${PASS_COUNT_DAYS}-Tage-Endpunkt nicht vorhanden. Fallback auf lokale Historie.`);
             historyJson = historyData;
         }
     } catch(e) {
-        console.error('Fehler beim Abrufen der 7-Tage Historie:', e);
+        console.error(`Fehler beim Abrufen der ${PASS_COUNT_DAYS}-Tage Historie:`, e);
         historyJson = historyData; 
     }
 
@@ -271,7 +273,7 @@ function createUserPassesPopupContent(map) {
     container.style.maxWidth = '250px';
     container.style.margin = '-10px'; // Offset Leaflet's Popup padding
 
-    // Anpassung hier: inputs mit 'width: 100%' und gleichem 'height'
+    // Dynamische Anzeige der Tage im Titel **KORRIGIERT**
     container.innerHTML = `
         <div style="font-weight:700; margin-bottom: 8px;">Überflüge über deinem Standort prüfen (${PASS_COUNT_DAYS} Tage)</div>
         <div style="display:flex; flex-direction: column; gap: 12px; margin-bottom: 12px;">
@@ -318,6 +320,7 @@ function createUserPassesPopupContent(map) {
         resultDisplay.innerHTML = `Die ISS überflog deinen Standort <b>${passes}</b>-mal.`;
 
         // 2. ERSTELLEN des Marker-Popup-Inhalts (mit Koordinaten und Zählergebnis)
+        // Dynamische Anzeige der Tage im Popup-Text **KORRIGIERT**
         const markerPopupContent = `
             <div style="font-weight: 600; font-size: 14px;">Deine Position:</div>
             <div>Lat: ${userLat.toFixed(4)}, Lon: ${userLon.toFixed(4)}</div>
@@ -360,7 +363,7 @@ function createUserPassesPopupContent(map) {
 
 
 // =====================
-// Custom Controls (NEU: Dropdown für mobile Ansicht)
+// Custom Controls (Dropdown für mobile Ansicht)
 // =====================
 const ButtonsControl = L.Control.extend({
   options: { position: 'topleft' },
@@ -370,14 +373,13 @@ const ButtonsControl = L.Control.extend({
     L.DomEvent.disableClickPropagation(container);
     L.DomEvent.disableScrollPropagation(container);
 
-    // NEU: Verwende Flexbox für die vertikale Anordnung und den Abstand
-    // Definiere die Breite der Buttons, damit sie gleich lang sind
+    // Flexbox für die vertikale Anordnung und den Abstand
     container.style.display = 'flex';
     container.style.flexDirection = 'column';
     container.style.gap = '8px'; // Abstand zwischen "Zurück" und "Optionen"
     container.style.width = '120px'; // Feste Breite für beide Buttons
 
-    // 1. "Zurück" Button (bleibt separat)
+    // 1. "Zurück" Button 
     const homeBtn = L.DomUtil.create('button', 'custom-btn home', container);
     homeBtn.title = 'Zurück zum Menü';
     homeBtn.textContent = 'Zurück';
@@ -386,12 +388,13 @@ const ButtonsControl = L.Control.extend({
     homeBtn.addEventListener('click', () => { window.location.href = 'menu.html'; });
 
     // 2. Dropdown-Menü
-    // Das Dropdown ist jetzt ein <select> und sollte ebenfalls die volle Breite des Containers annehmen.
-    // Hinzugefügt: text-align: center für das angezeigte Feld.
     const select = L.DomUtil.create('select', 'custom-btn custom-select', container);
     select.title = 'Optionen auswählen';
     select.style.width = '100%'; // Nimmt die Container-Breite an
-    select.style.textAlign = 'center'; // ZENTRIERT den Text im Dropdown-Feld selbst
+    // ANPASSUNG: Zentrierung des angezeigten Textes beibehalten
+    select.style.textAlign = 'center'; 
+    // NEU: Schriftart auf system-ui setzen
+    select.style.fontFamily = 'system-ui, -apple-system, Segoe UI, Roboto, sans-serif'; 
     
     // Standard-Option/Titel
     const defaultOption = L.DomUtil.create('option', '', select);
@@ -399,6 +402,8 @@ const ButtonsControl = L.Control.extend({
     defaultOption.value = 'default';
     defaultOption.disabled = true;
     defaultOption.selected = true;
+    // NEU: Schriftart für die Dropdown-Elemente setzen
+    defaultOption.style.fontFamily = 'system-ui, -apple-system, Segoe UI, Roboto, sans-serif'; 
 
     // Optionen hinzufügen
     const optionsData = [
@@ -409,11 +414,13 @@ const ButtonsControl = L.Control.extend({
     ];
 
     optionsData.forEach(data => {
-      // Hinzugefügt: style.textAlign = 'center' für jede Option in der Dropdown-Liste
+      // Zentriert den Text in der Dropdown-Liste
       const opt = L.DomUtil.create('option', '', select);
       opt.textContent = data.label;
       opt.value = data.value;
       opt.style.textAlign = 'center'; 
+      // NEU: Schriftart für die Dropdown-Elemente setzen
+      opt.style.fontFamily = 'system-ui, -apple-system, Segoe UI, Roboto, sans-serif'; 
     });
 
     // Event Listener für Dropdown
@@ -441,15 +448,9 @@ const ButtonsControl = L.Control.extend({
         // Aktion: Zeitfenster ändern
         currentWindowHours = parseInt(value, 10);
         updateTrailAndPoints();
-        
-        // Optional: Auswahl zurücksetzen oder auf den ausgewählten Wert lassen
-        // Lassen den Wert, um den aktuellen Status anzuzeigen (z.B. 1h)
-        
       }
     });
     
-    // Setze initial den Dropdown-Wert auf 1h, wenn Daten geladen sind (optional, da 'Optionen' Standard ist)
-    // Damit beim ersten Laden die 1h-Ansicht aktiv ist, auch wenn das Dropdown "Optionen" zeigt
     currentWindowHours = 1;
 
     return container;
