@@ -176,7 +176,7 @@ async function fetchFullHistoryAndCurrent(){
             historyJson = historyData;
         }
     } catch(e) {
-        console.error(`Fehler beim Abrufen der ${PASS_COUNT_DAYS}-Tage Historie:`, e);
+        console.error('Fehler beim Abrufen der ${PASS_COUNT_DAYS}-Tage Historie:', e);
         historyJson = historyData; 
     }
 
@@ -457,28 +457,29 @@ map.addControl(new ButtonsControl());
     const style = document.createElement('style');
     style.innerHTML = `
         .options-select {
-            /* 1. Einheitliches Aussehen erzwingen (deaktiviert natives Styling in allen Browsern) */
-            -webkit-appearance: none; 
-            -moz-appearance: none;    
-            appearance: none;         
+            /* 1. Einheitliches Aussehen erzwingen (deaktiviert natives Styling in allen Browsern) 
+               !important hinzugefügt, um Überschreibungen durch externe Stylesheets zu verhindern. */
+            -webkit-appearance: none !important; 
+            -moz-appearance: none !important;    
+            appearance: none !important;         
             
             /* 2. Textzentrierung und Schriftart */
-            text-align: center; /* Zentriert den Text in der Select-Box */
+            text-align: center !important; /* Zentriert den Text in der Select-Box */
             font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif !important;
             font-weight: 600;
 
-            /* 3. Dropdown-Pfeil manuell durch SVG ersetzen */
+            /* 3. Dropdown-Pfeil manuell durch SVG ersetzen (ALLE MIT !important) */
             /* Schwarzer Pfeil (fill='%23000'), der rechts positioniert wird */
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") !important;
+            background-repeat: no-repeat !important;
             
             /* Positionierung des Pfeils: 10px vom rechten Rand, vertikal zentriert */
-            background-position: right 10px center; 
-            background-size: 14px 14px; 
+            background-position: right 10px center !important; 
+            background-size: 14px 14px !important; 
             
             /* 4. Platz für den Pfeil schaffen */
             /* Fügt rechts einen Innenabstand hinzu, damit der Text nicht unter dem Pfeil verschwindet */
-            padding-right: 30px; 
+            padding-right: 30px !important; 
 
             /* 5. Entferne den störenden text-indent, der nur in Safari nötig war und in Chrome stört */
             text-indent: 0; 
