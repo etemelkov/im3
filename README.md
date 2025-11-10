@@ -9,6 +9,8 @@ Wir haben gelernt, wie man einen **ETL-Prozess** aufbaut, also Daten aus einer A
 ## Schwierigkeiten  
 Die erste API (NASA/ISS) wurde nicht mehr aktualisiert. Deshalb mussten wir eine neue Quelle suchen und unseren ETL-Prozess sowie den Code anpassen. So entstand auch die Idee, zusätzlich die **Visibility-Daten** einzubauen.
 
+Zusätzlich hatten wir das Problem, dass unsere Webseite nur auf meinem Gerät geöffnet wurde und die API auf allen Geräten nicht abgerufen wurde. Somit haben wir den CORS eingebaut um dies zu verhindern. Jetzt kann nun jeder auf die API zugreifen, was aber auch so gewollt und abgeklärt wurde. 
+
 ## Benutzte Ressourcen  
 - Leaflet & OpenStreetMap  
 - API mit Positions- und Visibility-Daten  
