@@ -5,18 +5,18 @@
   position: relative;
 }
 
-/* Textbox with Border and Spacing */
+/* Textbox mit Border und Spacing */
 .menu-box {
   width: min(73vw, 1122px);
-  margin: clamp(24px, 5vh, 48px) auto 0; /* Spacing from the title */
+  margin: clamp(24px, 5vh, 48px) auto 0; /* Spacing Titel */
   border: 3px solid #FFF;
   border-radius: 14px;
   padding: clamp(16px, 3.2vw, 32px) clamp(14px, 3vw, 26px);
   box-sizing: border-box;
   backdrop-filter: blur(1px);
-  position: relative; /* Anchor for the astronaut */
-  overflow: visible; /* Allow figure to slightly overlap */
-  z-index: 1; /* Below the figure */
+  position: relative; /* Anchor Astronaut */
+  overflow: visible; /* overlaping */
+  z-index: 1; /* unter Figur */
   transition: background-color 0.2s, color 0.2s, border-color 0.2s, border-radius 0.2s;
   
   /* Flexbox für die vertikale Zentrierung */
@@ -25,20 +25,20 @@
   justify-content: center; /* Zentriert den Inhalt (Astronaut-Link & Text) vertikal */
 }
 .menu-box > * + * {
-  margin-top: 10px; /* Acts like gap: 10px */
+  margin-top: 10px; /* Verhält sich wie gap: 10px */
 }
 .menu-box p {
   margin: 0;
-  max-width: 54ch; /* Adjust for readability */
+  max-width: 54ch; /* Adjust readability */
   margin-inline: auto;
   text-wrap: balance;
 }
 
-/* Astronaut Figure */
+/* Astronaut Figur */
 .menu-box .astronaut {
   position: absolute;
   /* NEU: Feste Positionierung relativ zur UNTEREN und LINKEN Kante des .menu-box */
-  bottom: -130px; /* Verschiebt den Astronauten 30px unterhalb der Box */
+  bottom: -130px; /* Verschiebt den Astronauten unterhalb der Box */
   left: 80px; 
   /* NEU: Transform zum Zentrieren relativ zu 'left: 0' und Verschieben */
   transform: translate(-65%, 0%); /* Verschiebt ihn 65% seiner Breite nach links, um ihn am Rand zu zentrieren */
