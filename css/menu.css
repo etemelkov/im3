@@ -1,58 +1,58 @@
 /* ===== menu.css – Mobile First ===== */
 
-/* General Container for Box/Buttons/Figure */
+/* Übergeordneter Container für Menübereich */
 .menu {
   position: relative;
 }
 
-/* Textbox mit Border und Spacing */
+/* Menü-Box: Rahmen, Abstände, Layout und Hintergrundeffekt */
 .menu-box {
   width: min(73vw, 1122px);
-  margin: clamp(24px, 5vh, 48px) auto 0; /* Spacing Titel */
+  margin: clamp(24px, 5vh, 48px) auto 0; /* Abstand oben, horizontal zentriert */
   border: 3px solid #FFF;
   border-radius: 14px;
   padding: clamp(16px, 3.2vw, 32px) clamp(14px, 3vw, 26px);
   box-sizing: border-box;
   backdrop-filter: blur(1px);
-  position: relative; /* Anchor Astronaut */
-  overflow: visible; /* overlaping */
-  z-index: 1; /* unter Figur */
+  position: relative; /* Bezugspunkt für absolut positionierte Elemente (Astronaut) */
+  overflow: visible; /* Erlaubt, dass der Astronaut über die Box hinaus ragt */
+  z-index: 1; /* Liegt unter der Figur (Astronaut hat höheren z-index) */
   transition: background-color 0.2s, color 0.2s, border-color 0.2s, border-radius 0.2s;
   
   /* Flexbox für die vertikale Zentrierung */
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Zentriert den Inhalt (Astronaut-Link & Text) vertikal */
+  justify-content: center; 
 }
+
+/* Abstand zwischen direkten Kindelementen der Box */
 .menu-box > * + * {
-  margin-top: 10px; /* Verhält sich wie gap: 10px */
+  margin-top: 10px; /* Entspricht einem flex-gap von 10px */
 }
+/* Absatz-Text: lesbare Zeilenlänge und zentrierte Ausrichtung */
 .menu-box p {
   margin: 0;
-  max-width: 54ch; /* Adjust readability */
+  max-width: 54ch; /* Begrenzte Zeilenlänge für bessere Lesbarkeit */
   margin-inline: auto;
   text-wrap: balance;
 }
 
-/* Astronaut Figur */
+/* Astronaut: absolut innerhalb der Box positioniert und überlappend dargestellt */
 .menu-box .astronaut {
   position: absolute;
-  /* NEU: Feste Positionierung relativ zur UNTEREN und LINKEN Kante des .menu-box */
   bottom: -130px; /* Verschiebt den Astronauten unterhalb der Box */
   left: 80px; 
-  /* NEU: Transform zum Zentrieren relativ zu 'left: 0' und Verschieben */
   transform: translate(-65%, 0%); /* Verschiebt ihn 65% seiner Breite nach links, um ihn am Rand zu zentrieren */
   
-  /* NEU: Feste Größe für Mobile */
-  width: 140px; /* Feste Breite (z.B. 140px) */
+  /*Feste Grösse für Mobile */
+  width: 140px; 
   height: auto;
-  
-  z-index: 5; /* Above the box */
+  z-index: 5; /* Über der Box */
   pointer-events: auto;
   cursor: pointer;
 }
 
-/* Link um den Astronauten – keine eigene Position nötig */
+/* Link um den Astronauten */
 .astronaut-link {
   display: inline-block;
 }
@@ -61,11 +61,9 @@
 /* Button Stack */
 .cta-stack {
   display: grid;
-  justify-content: center; /* zentriert alle Grid-Kinder */
+  justify-content: center; /* Zentriert die Buttons innerhalb des Grids */
   gap: clamp(30px, 3vw, 18px);
   width: min(92vw, 420px);
-  /* HIER WURDE DIE TOP-MARGIN (erster Wert) VON 130PX AUF 180PX ERHÖHT, 
-     um den Abstand zum Astronauten zu schaffen. */
   margin: clamp(180px, 4vh, 36px) auto clamp(8px, 3vh, 24px); 
 }
 
@@ -82,9 +80,9 @@
   background: #000;
   color: #FFF;
   text-decoration: none;
-  font-family: inherit; /* Inherits Open Sans from body */
+  font-family: inherit; /* Open Sans des bodys */
   font-weight: 300;
-  font-size: 23px; /* Matches paragraph font size on mobile */
+  font-size: 23px; /* Mobile-Schriftgrösse */
   line-height: normal;
   text-align: center;
   transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
@@ -98,7 +96,7 @@
   outline: none;
 }
 
-/* Animations */
+/* Animationen */
 .from-left,
 .from-bottom {
   opacity: 0;
@@ -148,7 +146,7 @@
 
   /* Adjust Astronaut */
   .menu-box .astronaut {
-    /* Feste Größe für Desktop */
+    /* Feste Grösse für Desktop */
     width: 190px;
     /* Position beibehalten */
     bottom: -160px; 
@@ -158,14 +156,14 @@
 
   /* Adjust Button Stack */
   .cta-stack {
-    gap: 10px; /* Increase spacing between buttons */
+    gap: 10px; /* spacing buttons */
     margin: clamp(50px, 4vh, 36px) auto clamp(8px, 3vh, 24px);
     gap: clamp(40px, 3vw, 18px);
   }
 
   /* Adjust Buttons */
   .btn {
-    font-size: 40px; /* Larger font size for desktop */
+    font-size: 40px; /* grössere font size für Desktop */
     height: 40px;
     width: 350px; /* fixe Breite */
     padding: 10px 20px;

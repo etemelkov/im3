@@ -15,13 +15,13 @@ body {
   background-image: url("../img/AdobeStock_266251260.jpeg"); /* <— Pfad zum HG-Bild */
   background-size: cover;
   background-position: center;
-  background-repeat: repeat-y;  /* bei sehr großen Bildschirmen */
+  background-repeat: repeat-y;  /* bei sehr grossen Bildschirmen */
 
-  /* Zentrierung (horizontal) + oben ausgerichtet */
+  /* Layout: Inhalte horizontal zentrieren und oben starten */
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;   /* statt center → oben ausrichten */
+  align-items: center;  /* horizontale Zentrierung der Inhalte */
+  justify-content: flex-start;   /* Inhalte am oberen Rand starten */
   text-align: center;
 
   /* etwas Abstand vom oberen Rand */

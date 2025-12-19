@@ -8,10 +8,8 @@
   display: flex;
   flex-direction: column;
   align-items: center; /* Zentriert alles horizontal */
-
-  /* statt exakter Zentrierung: weiter nach oben rücken */
   justify-content: flex-start;
-  padding-top: clamp(6vh, 10vh, 12vh);
+  padding-top: clamp(6vh, 10vh, 12vh);  /* Abstand nach oben innerhalb der Bühne */
 
   /* fixer Abstand zwischen Bild und Text */
   gap: clamp(80px, 3vh, 24px);
@@ -29,15 +27,15 @@
   max-width: 100%;
 }
 
-/* Bildgröße: mobile-first, fluid */
+/* Zustandsbild: responsive Grösse (Mobile-First) */
 .state-img{
   width: clamp(240px, 60vw, 520px);
-  max-width: 80%; /* Reduziert die maximale Größe des Bildes */
+  max-width: 80%; /* Reduziert die maximale Grösse des Bildes */
   height: auto;
   display: block;
   pointer-events: none;
   user-select: none;
-  /* Zusätzlicher Rand unten, falls es keinen Text gibt, den der Button abdeckt */
+  /* Zusätzlicher Abstand nach unten */
   margin-bottom: 20px; 
 }
 
@@ -45,7 +43,7 @@
 #iss-visibility{
   margin: 0;               /* Abstand kommt aus .vis-stage -> gap */
   text-shadow: 0 1px 8px rgba(0,0,0,.35);
-  /* Typografie (23px/40px) kommt aus deinem globalen styles.css */
+  /* Typografie (23px/40px) kommt aus globalem styles.css */
 }
 
 /* ----------------------------------------------------- */
@@ -59,6 +57,7 @@
   width: 100%; /* Nimmt volle Breite an, um Zentrierung zu ermöglichen */
 }
 
+/* Button-Design */
 .btn {
 /* Stil aus menu.css übernommen */
 display: flex;
@@ -88,7 +87,7 @@ border-color: #000;
 outline: none;
 }
 
-/* ===== Desktop-Tweaks ===== */
+/* ===== Desktop-Anpassungen ===== */
 @media (min-width: 992px){
   .vis-stage{
       padding-inline: 24px;
@@ -102,7 +101,7 @@ outline: none;
       max-width: 60%; /* Reduziert die maximale Größe des Bildes */
   }
 
-  /* Button auf Desktop-Größe anpassen */
+  /* Button auf Desktop-Grösse anpassen */
   .btn {
       font-size: 40px; /* Larger font size for desktop */
       height: 40px;

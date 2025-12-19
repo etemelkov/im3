@@ -18,7 +18,7 @@ console.log("Hello, Visibility!");
     return Object.keys(obj).find(k => k.toLowerCase().includes('visibility')) || null;
   }
 
-  // Nutzt genau deine Dateinamen im /img Ordner
+  // Nutzt genau Dateinamen im /img Ordner
   function pickStateImage(visText) {
     const t = normalize(visText);
 

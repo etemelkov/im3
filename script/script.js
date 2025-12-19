@@ -9,7 +9,7 @@ let currentWindowHours = 1;          // Buttons (1h / 2h / 3h)
 // Zählfenster auf 14 Tage gesetzt
 const PASS_COUNT_DAYS = 14; 
 // Toleranz in Grad für die Überflug-Zählung (1.0 Grad ≈ 110 km)
-// Dies ist ein realistischerer Radius für einen "nahen" Überflug als der vorherige Wert (0.5°)
+// Dies ist ein realistischerer Radius für einen «nahen» Überflug 
 const TOLERANCE_DEG = 1.0; 
 
 // =====================
@@ -33,15 +33,17 @@ const issIcon = L.icon({
 // =====================
 // State
 // =====================
-let issMarker = null;
-let lastUpdate = null;     
-let historyData = [];      
+let issMarker = null; // Marker für aktuelle ISS-Position
+let lastUpdate = null; // Zeitpunkt der letzten Aktualisierung     
+let historyData = []; // Historische Positionsdaten der ISS    
+
+// Linie für die Flugbahn
 
 const trail = L.polyline([], { weight: 2.5, opacity: 0.9, color: '#ffffff' }).addTo(map);
 const pointsLayer = L.layerGroup().addTo(map);
 
 // =====================
-// Utils & Parsing
+// Hilfsfunktionen & Parsing
 // =====================
 function fmtTime(d){
   if (!d) return '—';
@@ -50,6 +52,8 @@ function fmtTime(d){
     hour:'2-digit', minute:'2-digit', second:'2-digit'
   });
 }
+
+// Tooltip-/Popup-Inhalt für die aktuelle ISS-Position
 function infoHTML(lat, lon, t){
   return `
     <div style="font:600 14px/1.35 system-ui, -apple-system, Segoe UI, Roboto">
@@ -68,6 +72,7 @@ function pointTooltipHTML(p){
     </div>
   `;
 }
+// Extrahiert Lat/Lon/Zeit aus verschiedenen möglichen API-Formate
 function getPointFromObject(o){
   if (!o || typeof o !== 'object') return null;
   const lat = o.latitude ?? o.lat ?? (Array.isArray(o.latlon) ? o.latlon[0] : undefined);
@@ -113,8 +118,8 @@ function normalizeResponse(raw){
 // =====================
 
 /**
- * Zählt Überflüge über einen bestimmten Punkt (Lat/Lon) innerhalb der letzten ${PASS_COUNT_DAYS} Tage.
- * Definiert einen "Überflug" als das Eintreten der ISS in einen Kasten um den Punkt.
+ * Zählt ISS-Überflüge über einen bestimmten Punkt innerhalb der letzten PASS_COUNT_DAYS Tage.
+ * Ein Überflug wird als Eintritt in ein Toleranz-Rechteck um den Punkt definiert
  * @param {number} userLat - Breitengrad des benutzerdefinierten Standorts
  * @param {number} userLon - Längengrad des benutzerdefinierten Standorts
  * @returns {number} - Anzahl der Überflüge
@@ -188,7 +193,7 @@ async function fetchFullHistoryAndCurrent(){
     lastUpdate = last.t || new Date();
     const latlng = [last.lat, last.lon];
 
-    // Marker aktualisieren (wie bisher)
+    // Marker setzen oder aktualisieren 
     if (!issMarker){
       issMarker = L.marker(latlng, { icon: issIcon }).addTo(map);
       issMarker.bindTooltip(infoHTML(last.lat, last.lon, last.t), { direction: 'top', sticky: true, opacity: 0.95 });
@@ -206,7 +211,7 @@ async function fetchFullHistoryAndCurrent(){
   }
 }
 
-// (mergeHistory und updateTrailAndPoints bleiben unverändert)
+// Historie & Anzeige
 function mergeHistory(newPoints){
   const toAdd = newPoints.map(p => ({ lat: p.lat, lon: p.lon, t: p.t || null }));
   historyData = historyData.concat(toAdd);
@@ -481,7 +486,7 @@ map.addControl(new ButtonsControl());
             /* Fügt rechts einen Innenabstand hinzu, damit der Text nicht unter dem Pfeil verschwindet */
             padding-right: 30px !important; 
 
-            /* 5. Entferne den störenden text-indent, der nur in Safari nötig war und in Chrome stört */
+            /* 5. Entfernt den störenden text-indent, der nur in Safari nötig war und in Chrome stört */
             text-indent: 0; 
         }
 
